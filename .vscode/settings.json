@@ -12,10 +12,9 @@
       ".vscode{,/**}"
     ],
     "appService.deploySubpath": "",
-    // "editor.codeActionsOnSave": {
-    //   "source.fixAll.eslint": true
-    // },
-    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
     "javascript.preferences.importModuleSpecifier": "relative",
     "typescript.preferences.importModuleSpecifier": "relative",
     "jest.runAllTestsFirst": false,

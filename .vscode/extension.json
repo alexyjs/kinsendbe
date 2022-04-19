@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "graphql.vscode-graphql",
+    "dbaeumer.vscode-eslint",
+    "orta.vscode-jest",
+    "kisstkondoros.vscode-codemetrics",
+    "akumzy.vscode-prisma-raw-query-sql",
+    "prisma.prisma"
+  ],
+  "unwantedRecommendations": [
+    "esbenp.prettier-vscode",
+    "tlevesque.import-to-require",
+    "amatiasq.sort-imports",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "mike-co.import-sorter"
+  ]
+}
