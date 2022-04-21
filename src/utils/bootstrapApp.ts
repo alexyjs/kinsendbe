@@ -33,10 +33,10 @@ export async function bootstrapApp(app: NestExpressApplication) {
       transform: true,
     }),
   );
-  
+
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('ejs')
+  app.setViewEngine('ejs');
 
   app.use(helmet());
   const { corsEnabled, corsAllowedOrigins } = new ConfigService();
