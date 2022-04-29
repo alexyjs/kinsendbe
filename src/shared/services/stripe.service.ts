@@ -68,12 +68,14 @@ export class StripeService {
     context: RequestContext,
     paymentMethodId: string,
     customerId: string,
+    paymentMethodTypes: [string],
   ): Promise<Stripe.Response<Stripe.SetupIntent>> {
     const { logger, correlationId } = context;
     try {
       const cardInfo = await this.stripe.setupIntents.create({
         customer: customerId,
         payment_method: paymentMethodId,
+        payment_method_types: paymentMethodTypes,
       });
       return cardInfo;
     } catch (error: unknown) {
@@ -100,6 +102,46 @@ export class StripeService {
       return listCardInfo;
     } catch (error: unknown) {
       const message = 'Request list stored cards is not successful';
+      logger.error({
+        correlationId,
+        message,
+        error,
+      });
+      throw new IllegalStateException(message);
+    }
+  }
+
+  async confirmCreditCard(
+    context: RequestContext,
+    setupIntentId: string,
+    paymentMethod?: string,
+  ): Promise<Stripe.Response<Stripe.SetupIntent>> {
+    const { logger, correlationId } = context;
+    try {
+      const cardInfo = await this.stripe.setupIntents.confirm(setupIntentId, {
+        payment_method: paymentMethod,
+      });
+      return cardInfo;
+    } catch (error: unknown) {
+      const message = 'Request confirm card  is not successful';
+      logger.error({
+        correlationId,
+        message,
+        error,
+      });
+      throw new IllegalStateException(message);
+    }
+  }
+
+  async cancelCreditCard(
+    context: RequestContext,
+    setupIntentId: string,
+  ): Promise<Stripe.Response<Stripe.SetupIntent>> {
+    const { logger, correlationId } = context;
+    try {
+      return await this.stripe.setupIntents.cancel(setupIntentId);
+    } catch (error: unknown) {
+      const message = 'Request cancel card  is not successful';
       logger.error({
         correlationId,
         message,
