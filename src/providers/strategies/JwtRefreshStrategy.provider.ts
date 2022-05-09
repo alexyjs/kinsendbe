@@ -7,7 +7,7 @@ import { tokenCacheKey } from '../../utils/cacheKeys';
 import { RequestContext } from '../../utils/RequestContext';
 import { ConfigService } from '../../configs/config.service';
 import { UserResponseDto } from '../../modules/user/dtos/UserResponse.dto';
-import { UserFindByIdlAction } from '../../modules/user/services/UserFindByIdAction.service';
+import { UserFindByIdAction } from '../../modules/user/services/UserFindByIdAction.service';
 
 type RefreshTokenPayloadDto = AuthRefreshTokenResponseDto;
 
@@ -15,7 +15,7 @@ type RefreshTokenPayloadDto = AuthRefreshTokenResponseDto;
 export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refresh-token') {
   constructor(
     private readonly configService: ConfigService,
-    private readonly userFindByIdlAction: UserFindByIdlAction,
+    private readonly userFindByIdAction: UserFindByIdAction,
 
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
@@ -36,7 +36,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-ref
     if (hasCache) {
       throw new UnauthorizedException(`Expired session : ${sessionId}`);
     }
-    const user = <UserResponseDto>(<unknown>await this.userFindByIdlAction.execute(id));
+    const user = <UserResponseDto>(<unknown>await this.userFindByIdAction.execute(id));
 
     if (user) {
       return <UserResponseDto>user;
