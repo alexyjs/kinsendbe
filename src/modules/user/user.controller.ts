@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Query,
   Req,
   Res,
@@ -24,6 +25,8 @@ import { UserCreatePayloadDto } from './dtos/UserCreateRequest.dto';
 import { UserResendEmailAction } from './services/UserResendEmailAction.service';
 import { JwtAuthGuard } from '../../providers/guards/JwtAuthGuard.provider';
 import { UserGetProfileAction } from './services/UserGetProfileAction.service';
+import { UserUpdateProfilePayloadDto } from './dtos/UserUpdateProfilePayload.dto';
+import { UserUpdateProfileAction } from './services/UserUpdateProfileAction.service';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -34,6 +37,7 @@ export class UserController {
     private userCreateAction: UserCreateAction,
     private userResendEmailAction: UserResendEmailAction,
     private userGetProfileAction: UserGetProfileAction,
+    private userUpdateProfileAction: UserUpdateProfileAction,
   ) {}
 
   @HttpCode(HttpStatus.CREATED)
@@ -59,4 +63,14 @@ export class UserController {
   async profile(@Req() request: AppRequest) {
     return this.userGetProfileAction.execute(request);
   }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new ValidationPipe({whitelist:true }))
+  @Put('/me')
+  async updateProfile(@Req() request: AppRequest, @Body() payload: UserUpdateProfilePayloadDto) {
+    return this.userUpdateProfileAction.execute(request, payload);
+  }
 }
+
+
