@@ -14,13 +14,13 @@ import { RequestContext } from 'src/utils/RequestContext';
 import { STATUS } from 'src/domain/const';
 import { UserCreatePayloadDto } from '../dtos/UserCreateRequest.dto';
 import { User, UserDocument } from '../user.schema';
-import { UsernameConflictException } from '../../../utils/exceptions/UsernameConflictException';
+import { EmailConflictException } from '../../../utils/exceptions/UsernameConflictException';
 import { ConfigService } from '../../../configs/config.service';
 import { hashAndValidatePassword } from '../../../utils/hashUser';
 import { MailService } from '../../mail/mail.service';
 import { MailSendGridService } from '../../mail/mail-send-grid.service';
 import { UserConfirmationTokenDto } from '../dtos/UserConfirmationToken.dto';
-import { UserProvider } from '../interfaces/user.interface';
+import { USER_PROVIDER } from '../interfaces/user.interface';
 
 @Injectable()
 export class UserCreateAction {
@@ -40,7 +40,7 @@ export class UserCreateAction {
     const checkExistedUser = await this.userModel.findOne({ $or: [{ email }] });
 
     if (checkExistedUser) {
-      throw new UsernameConflictException('User has already conflicted');
+      throw new EmailConflictException('User has already conflicted');
     }
 
     const { saltRounds, mailForm, baseUrl } = this.configService;
@@ -50,7 +50,7 @@ export class UserCreateAction {
       ...payload,
       password: hashPass,
       status: STATUS.INACTIVE,
-      provider: UserProvider.PASSWORD,
+      provider: USER_PROVIDER.PASSWORD,
     }).save();
 
     const { jwtSecret, accessTokenExpiry } = this.configService;
