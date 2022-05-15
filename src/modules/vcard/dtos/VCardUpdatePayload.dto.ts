@@ -2,37 +2,38 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsLowercase,
-  IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
 } from 'class-validator';
 
-export class VcardCreatePayloadDto {
-  @ApiProperty({ example: 'lorem@gmail.com', type: String, required: true })
+export class VCardUpdatePayloadDto {
+  @ApiProperty({ example: 'lorem@gmail.com', type: String, required: false })
   @IsLowercase()
   @MaxLength(50)
   @IsEmail()
-  email: string;
+  @IsOptional()
+  email?: string;
 
-  @ApiProperty({ example: 'Lo', required: true, type: String })
+  @ApiProperty({ example: 'Lo', required: false, type: String })
   @IsString()
-  @IsNotEmpty()
-  firstName: string;
+  @IsOptional()
+  firstName?: string;
 
-  @ApiProperty({ example: 'Rem', required: true, type: String })
+  @ApiProperty({ example: 'Rem', required: false, type: String })
   @IsString()
-  @IsNotEmpty()
-  lastName: string;
+  @IsOptional()
+  lastName?: string;
 
-  @ApiProperty({ example: 'title', required: true, type: String })
+  @ApiProperty({ example: 'title', required: false, type: String })
   @IsString()
-  title: string;
+  @IsOptional()
+  title?: string;
 
-  @ApiProperty({ example: 'organization', required: true, type: String })
+  @ApiProperty({ example: 'organization', required: false, type: String })
   @IsString()
-  @IsNotEmpty()
-  organization: string;
+  @IsOptional()
+  organization?: string;
 
   @ApiProperty({ example: 'facebook.com/name', required: false, type: String })
   @IsString()
