@@ -10,6 +10,7 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { ResourceModule } from './modules/resource/resource.module';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { VCardModule } from './modules/vcard/vcard.module';
+import { TagsModule } from './modules/tags/tags.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { VCardModule } from './modules/vcard/vcard.module';
     PaymentModule,
     ResourceModule,
     SubscriptionModule,
-    VCardModule
+    VCardModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
