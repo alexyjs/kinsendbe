@@ -7,27 +7,23 @@ import { CUSTOM_FIELDS_TYPE } from '../interfaces/custom.fields.interface';
 export class Options {
   @IsString()
   @IsNotEmpty()
-  key: string;
+  label: string;
 
   @IsString()
   @IsNotEmpty()
-  label: string;
+  tag: string;
 }
 export class CustomFieldsCreatePayload {
+  @ApiProperty({ example: 'What is today?', required: true, type: String })
+  @IsString()
+  @IsNotEmpty()
+  label: string;
+
   @ApiProperty({ example: 'SINGLE_TEXT', required: true, enum: CUSTOM_FIELDS_TYPE, type: String })
   @IsString()
   @IsIn(Object.values(CUSTOM_FIELDS_TYPE))
   @IsNotEmpty()
   type: CUSTOM_FIELDS_TYPE;
-
-  @ApiProperty({ example: ['tag 1', 'tag 2'], required: true })
-  @IsArray()
-  tags: string[];
-
-  @ApiProperty({ example: 'What is today?', required: true, type: String })
-  @IsString()
-  @IsNotEmpty()
-  label: string;
 
   @ApiProperty({ example: 'Lorem', required: false, type: String })
   @IsString()
