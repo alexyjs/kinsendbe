@@ -12,7 +12,11 @@ const int = (value: string | undefined, number: number): number =>
 export class ConfigService {
   private readonly envConfig: { [key: string]: string };
   constructor() {
-    this.envConfig = dotenv.parse(fs.readFileSync('.env'));
+    try {
+      this.envConfig = dotenv.parse(fs.readFileSync('.env'));
+    } catch {
+      this.envConfig = {};
+    }
   }
   private int(value: string | undefined, number: number): number {
     return value
