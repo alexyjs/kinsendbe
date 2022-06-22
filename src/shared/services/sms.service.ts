@@ -145,4 +145,31 @@ export class SmsService {
       throw new IllegalStateException('Request rent numbers error');
     }
   }
+
+  async sendVitualCardToSubscriber(
+    context: RequestContext,
+    vCardUrl: string,
+    to: string,
+  ): Promise<void> {
+    const { logger, correlationId } = context;
+    try {
+      const result = await this.twilioClient.messages.create({
+        from: this.configService.twilioPhoneNumber,
+        mediaUrl: vCardUrl,
+        to,
+      });
+      logger.info({
+        correlationId,
+        message: 'Send VCard to subscriber successful!',
+        result,
+      });
+    } catch (error: unknown) {
+      logger.error({
+        correlationId,
+        message: 'Send VCard to subscriber fail!',
+        error,
+      });
+      throw new IllegalStateException('Send VCard to subscriber fail!');
+    }
+  }
 }
