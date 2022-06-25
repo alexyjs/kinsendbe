@@ -11,7 +11,7 @@ import { StripeService } from './services/stripe.service';
 import { VirtualCardService } from './services/virtual.card.service';
 import { S3Service } from './services/s3.service';
 import { ConfigService } from '../configs/config.service';
-import { AmplifyClientService } from './services/ amplify.client.service';
+import { AmplifyClientService } from './services/amplify.client.service';
 import { ValidateDomainService } from './services/validate.domain.service';
 import { BackgroudJobService } from './services/backgroud.job.service';
 
