@@ -7,6 +7,7 @@ import { UserModule } from '../user/user.module';
 import { VirtualCardModule } from '../virtualcard/virtual.card.module';
 import { FormSubmissionController } from './form.submission.controller';
 import { FormSubmission, FormSubmissionSchema } from './form.submission.schema';
+import { FormSubmissionCountByFormIdAction } from './services/FormSubmissionCountByFormIdAction.service';
 import { FormSubmissionCreateAction } from './services/FormSubmissionCreateAction.service';
 import { FormSubmissionsFindByEmailAction } from './services/FormSubmissionsFindByEmailAction.service';
 
@@ -20,7 +21,11 @@ import { FormSubmissionsFindByEmailAction } from './services/FormSubmissionsFind
     AutomationModule,
     UserModule,
   ],
-  providers: [FormSubmissionCreateAction, FormSubmissionsFindByEmailAction],
+  providers: [
+    FormSubmissionCreateAction,
+    FormSubmissionsFindByEmailAction,
+    FormSubmissionCountByFormIdAction,
+  ],
   exports: [FormSubmissionsFindByEmailAction],
 })
 export class FormSubmissionModule {}

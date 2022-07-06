@@ -1,11 +1,12 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Req,
-  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -17,12 +18,17 @@ import { AppRequest } from '../../utils/AppRequest';
 import { FormSubmissionModule } from './form.submission.module';
 import { FormSubmissionCreatePayload } from './dtos/FormSubmissionCreatePayload.dto';
 import { FormSubmissionCreateAction } from './services/FormSubmissionCreateAction.service';
+import { TranformObjectIdPipe } from '../../utils/ParseBigIntPipe';
+import { FormSubmissionCountByFormIdAction } from './services/FormSubmissionCountByFormIdAction.service';
 
 @ApiTags('FormSubmission')
 @UseInterceptors(MongooseClassSerializerInterceptor(FormSubmissionModule))
 @Controller('form-submission')
 export class FormSubmissionController {
-  constructor(private formSubmissionCreateAction: FormSubmissionCreateAction) {}
+  constructor(
+    private formSubmissionCreateAction: FormSubmissionCreateAction,
+    private formSubmissionCountByFormIdAction: FormSubmissionCountByFormIdAction,
+  ) {}
 
   @HttpCode(HttpStatus.CREATED)
   @Post('/')
@@ -33,5 +39,14 @@ export class FormSubmissionController {
     payload: FormSubmissionCreatePayload,
   ) {
     return this.formSubmissionCreateAction.execute(request, payload);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get('/count/:formId')
+  countSubscriber(
+    @Req() request: AppRequest,
+    @Param('formId', TranformObjectIdPipe) formId: string,
+  ) {
+    return this.formSubmissionCountByFormIdAction.execute(request, formId);
   }
 }
