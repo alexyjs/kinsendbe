@@ -14,6 +14,9 @@ import { TagsModule } from '../tags/tags.module';
 import { FormModule } from '../form/form.module';
 import { UpdateTaggedTriggerAction } from './services/UpdateTriggerAction/UpdateTaggedTriggerAction';
 import { UpdateHandleTrigerAction } from './services/UpdateHandleTrigerAction';
+import { UpdateLocationTriggerAction } from './services/UpdateTriggerAction/UpdateLocationTriggerAction';
+import { UpdateSegmentTriggerAction } from './services/UpdateTriggerAction/UpdateSegmentTriggerAction';
+import { SegmentModule } from '../segment/segment.module';
 
 @Module({
   controllers: [UpdateController],
@@ -24,6 +27,7 @@ import { UpdateHandleTrigerAction } from './services/UpdateHandleTrigerAction';
     FormSubmissionModule,
     TagsModule,
     FormModule,
+    SegmentModule,
   ],
   providers: [
     UpdateCreateAction,
@@ -33,6 +37,8 @@ import { UpdateHandleTrigerAction } from './services/UpdateHandleTrigerAction';
     UpdateSendTestAction,
     UpdateTaggedTriggerAction,
     UpdateHandleTrigerAction,
+    UpdateLocationTriggerAction,
+    UpdateSegmentTriggerAction,
   ],
   exports: [],
 })

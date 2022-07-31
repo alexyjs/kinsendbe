@@ -3,16 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { BackgroudJobService } from '../../../../shared/services/backgroud.job.service';
 import { SmsService } from '../../../../shared/services/sms.service';
 import { RequestContext } from '../../../../utils/RequestContext';
-import { FormSubmission } from '../../../form.submission/form.submission.schema';
-import { FormGetSubmissionResponse } from '../../../form/interfaces/form.interface';
-import { FormGetSubmissionsByTagIds } from '../../../form/services/FormGetSubmissionsByTagIds';
+import { FormSubmissionsGetByLocationsAction } from '../../../form.submission/services/FormSubmissionsGetByLocationsAction.service';
 import { UpdateDocument } from '../../update.schema';
 import { UpdateBaseTriggerAction } from './UpdateBaseTriggerAction';
 
 @Injectable()
-export class UpdateTaggedTriggerAction extends UpdateBaseTriggerAction {
+export class UpdateLocationTriggerAction extends UpdateBaseTriggerAction {
   constructor(
-    private formGetSubmissionsByTagId: FormGetSubmissionsByTagIds,
+    private formSubmissionsGetByLocationsAction: FormSubmissionsGetByLocationsAction,
     private backgroudJobService: BackgroudJobService,
     private smsService: SmsService,
   ) {
@@ -25,17 +23,12 @@ export class UpdateTaggedTriggerAction extends UpdateBaseTriggerAction {
     update: UpdateDocument,
   ): Promise<void> {
     const { logger } = context;
-    const { filter } = update;
-    const { tagId } = filter;
-    const isArray = Array.isArray(tagId);
-    if (!tagId || (isArray && tagId.length === 0)) {
-      logger.info('Skip  update tagged trigger. Tag should not null.');
+    const { location } = update.filter;
+    if (!location) {
+      logger.info('Skip  update location trigger. Location should not null.');
       return;
     }
-    const subscribers = await this.formGetSubmissionsByTagId.execute(
-      context,
-      isArray ? tagId : [tagId],
-    );
+    const subscribers = await this.formSubmissionsGetByLocationsAction.execute(context, [location]);
     this.executeTrigger(
       context,
       ownerPhoneNumber,
