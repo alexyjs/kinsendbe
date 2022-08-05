@@ -15,7 +15,7 @@ import { LinkRedirectDocument } from '../link.redirect.schema';
 import { UpdateReportingDocument } from '../update.reporting.schema';
 import { Update, UpdateDocument } from '../update.schema';
 import { LinkRedirectFindIsRootdByUpdateIdAction } from './link.redirect/LinkRedirectFindIsRootdByUpdateIdAction.service';
-import { UpdateReportingFindByUpdateIdWithoutErrorAction } from './update.reporting/UpdateReportingFindByUpdateIdWithoutErrorAction.service copy';
+import { UpdateReportingFindByUpdateIdWithoutErrorAction } from './update.reporting/UpdateReportingFindByUpdateIdWithoutErrorAction.service';
 
 @Injectable()
 export class UpdateFindByIdAction {
@@ -201,6 +201,6 @@ export class UpdateFindByIdAction {
     if (!submissions) {
       return [];
     }
-    return submissions.map((sub) => sub.toJSON());
+    return submissions.map((sub) => sub.toJSON()) as Subscriber[];
   }
 }
